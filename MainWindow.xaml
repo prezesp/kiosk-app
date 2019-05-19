@@ -4,10 +4,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" 
         x:Class="KioskApp.MainWindow"
-        Title="KioskApp" HasSystemDecorations="false" 
+        HasSystemDecorations="true" 
+        Title="KioskApp" 
         WindowState="Maximized">
-    <StackPanel Margin="10">
-		<TextBox Text="Welcome to Avalonia!"/>
-		<Button Background="Red" Click="OnButtonClicked">Hej</Button>
-	</StackPanel>    
+  <Window.Styles>
+    <Style Selector="Button">
+      <Setter Property="Background" Value="LightBlue"/>
+      <Setter Property="BorderThickness" Value="0 0 0 5"/>
+      <Setter Property="FontSize" Value="48"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Margin" Value="20"/>
+      <Setter Property="Padding" Value="20"/>
+    </Style>
+  </Window.Styles>
+
+  <StackPanel Margin="30" VerticalAlignment="Center">
+		<TextBlock HorizontalAlignment="Center" Text="Select scenario"/>
+    <Button Click="OnButtonClicked">scenario #1</Button>
+    <Button Click="OnButtonClicked">scenario #2</Button>
+    <Button Click="OnButtonClicked">scenario #3 (exit)</Button>
+	</StackPanel>
 </Window>

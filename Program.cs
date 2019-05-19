@@ -1,6 +1,9 @@
 ﻿using System;
+using Autofac;
 using Avalonia;
 using Avalonia.Logging.Serilog;
+using KioskApp.Utils;
+using KioskApp.Utils.Printing;
 
 namespace KioskApp
 {
@@ -21,7 +24,22 @@ namespace KioskApp
         // container, etc.
         private static void AppMain(Application app, string[] args)
         {
-            app.Run(new MainWindow());
+            var builder = new ContainerBuilder();
+            builder.RegisterType<DummyPrinter>().As<IPrinter>();
+            builder.RegisterType<DummyPrinter>().As<IPrinter>();
+            builder.RegisterType<SystemService>().As<SystemService>();
+            var container = builder.Build();
+
+            // Register container itself
+            var builder2 = new ContainerBuilder();
+            builder2.RegisterInstance<IContainer>(container);
+            builder2.Update(container);
+
+            using (var scope = container.BeginLifetimeScope()) 
+            {
+                var main = new MainWindow(scope.Resolve<SystemService>());
+                app.Run(main);
+            }
         }
     }
 }
